@@ -1,6 +1,5 @@
 jQuery(() => {
 
-
   $.ajax({
     url: 'https://deckofcardsapi.com/api/deck/new/'
   }).then(
@@ -12,51 +11,71 @@ jQuery(() => {
     console.log('error');
   })
 
+  let deck = {
+    cards: []
+  }
+
   const getDeck = (deckID) => {
     $.ajax({
       url: `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=52` //draws 52 cards from deck with unique deckID
     }).then(
       (data) => {
-        deck = data // creates global deck variable
-        // console.log(data);
+       // creates global deck variable
+      deck.cards = data.cards
+      console.log(deck, 'initial deck');
+
     },
     () => {
       console.log('error');
     })
   }
-  let shuffledDeck = []
-  $('#shuffle').on('click',() => {
-
-      for (let i = (deck.cards).length; i > 0; i--) {
-      const cardNum = Math.floor(Math.random() * i)
-      shuffledDeck.push(deck.cards.splice(cardNum, 1))
-    }
-    console.log(shuffledDeck[0][0]);
-
-    // for (var i = 0; i < shuffledDeck.length; i++) {
-    //   console.log(shuffledDeck[i][0]);
-    //   const $card = $('<img>').attr('src', shuffledDeck[i][0].image)
-    //   $('#userContainer').append($card)
+  const shuffle = (array) => {
+    // shuffledDeck.cards = []
+    // console.log(shuffledDeck);
+    // for (let i = deck.cards.length; i > 0; i--) {
+    //   const cardNum = Math.floor(Math.random() * i)
+    //   shuffledDeck.cards.push(deck.cards[cardNum])
+    //   deck.cards.splice(cardNum, 1)
     // }
+    // for (let i = deck.length; i > 0 ; i--) {
+    //   let j = Math.floor(Math.random() * (i))
+    //   [deck.cards[i], deck.cards[j]] = [deck.cards[j], deck.cards[i]]
+    // }
+    // Durstenfeld shuffle http://thenewcode.com/1095/Shuffling-and-Sorting-JavaScript-Arrays :
+    $('#cardBack').addClass('cardBackShuffle').delay(1001).queue(() => {
+      $('#cardBack').removeClass('cardBackShuffle').dequeue()
+    })
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    console.log(deck,'shuffled')
+    return array;
+  }
+  const dealCards = (num) => {
+    $('#userContainer').css('visibility', 'visible')
+    for (let i = 0; i < num; i++) {
+      const $card = $('<img class = "card">').attr('src', deck.cards[0].image)
+      $('#userContainer').append($card)
+      deck.cards.splice(0, 1)
+    }
+    console.log(deck);
+  }
 
-  })
+  $('#shuffle').on('click',() => {shuffle(deck.cards)})
 
   $('#cardBack').on('click', () => {
-
-    const $card = $('<img>').attr('src', shuffledDeck[0][0].image)
-    $('#userContainer').append($card)
-    shuffledDeck.splice(0, 1)
-    console.log(shuffledDeck[0][0]);
-    console.log(shuffledDeck.length);
+    let num = 1
+    dealCards(num)
   })
 
+  $('#dealCards').on('click', () => {
+    let num = prompt('How many cards do you want to deal?', 'enter a number')
+    dealCards(num)
+  })
 
-  // $('#cardBack').on('click',() => {
-  //   console.log(deck.cards);
-  //   const cardNum = Math.floor(Math.random() * 52)
-  //   const $card = $('<img>').attr('src', deck.cards[cardNum].image).attr('alt',deck.cards[cardNum].code).attr('class','card')
-  //   $('#userContainer').append($card)
-  // })
 
 
 

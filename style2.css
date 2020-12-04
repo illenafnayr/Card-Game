@@ -10,17 +10,51 @@
   align-self: center;
 }
 
-#shuffle {
-  width: 5%;
+.cardBackShuffle {
+  width: 25%;
+  align-self: center;
+  animation: shuffle;
+  animation-duration: 1s;
+}
+
+@keyframes shuffle {
+    0% {transform: rotate(10deg);}
+    5% {transform: rotate(-10deg);}
+   10% {transform: rotate(5deg);}
+   15% {transform: rotate(-5deg);}
+   20% {transform: rotate(10deg);}
+   25% {transform: rotate(-10deg);}
+   30% {transform: rotate(5deg);}
+   35% {transform: rotate(-5deg);}
+   40% {transform: rotate(10deg);}
+   45% {transform: rotate(-10deg);}
+   50% {transform: rotate(5deg);}
+   55% {transform: rotate(-5deg);}
+   60% {transform: rotate(10deg);}
+   65% {transform: rotate(-10deg);}
+   70% {transform: rotate(5deg);}
+   75% {transform: rotate(-5deg);}
+   80% {transform: rotate(10deg);}
+   85% {transform: rotate(-10deg);}
+   90% {transform: rotate(5deg);}
+   95% {transform: rotate(-5deg);}
+  100% {transform: rotate(10deg);}
+}
+
+
+.button {
+  width: 10vw;
   align-self: center;
   margin: 1%;
+  text-align: center;
 }
 
 #userContainer {
+  visibility: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40vh;
+  height: 35vh;
   border: 1px solid black;
   flex-wrap: wrap;
   overflow: scroll;
@@ -29,4 +63,11 @@
 .card {
   max-height: 95%;
   margin: 1%;
+}
+
+@media screen and (max-width: 600px) {
+
+  #shuffle{
+    font-size: 0.5rem;
+  }
 }
