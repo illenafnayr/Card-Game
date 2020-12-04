@@ -1,0 +1,43 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+#cardBack {
+  width: 226px;
+  height: 314px;
+  align-self: center;
+}
+
+.card {
+  width: 8%;
+  height:auto;
+  margin: 0.5% 1% 0.5% 1%
+}
+
+.user {
+  display: flex;
+  justify-content: flex-start;
+  width: 95vw;
+  height: 10vw;
+  border: 2px solid black;
+}
+
+.dealerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  width: 90vw;
+}
+
+
+.dealerFunctions input {
+  margin: 1%;
+}
