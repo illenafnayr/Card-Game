@@ -11,12 +11,30 @@
     <script type="text/javascript" src="app2.js"></script>
   </head>
   <body>
+    <div id="player2" class="player">
+    </div>
     <div class="container">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Card_back_10.svg/1280px-Card_back_10.svg.png" alt="card back" id = "cardBack">
-      <button type="button" name="button" id="shuffle" class="button">Shuffle</button>
-      <button type="button" name="button" id="dealCards" class="button">Deal Cards</button>
+      <div class="pileContainer">
+        <div id="player1" class="player"></div>
+        <div id="center">
+          <div id="cardzz">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Card_back_10.svg/1280px-Card_back_10.svg.png" alt="card back" id = "cardBack">
+            <div id="discardPile">
+            </div>
+          </div>
+          <div id="buttons">
+            <button type="button" name="button" id="shuffle" class="button">Shuffle</button>
+            <button type="button" name="button" id="dealCards" class="button">Deal Cards</button>
+          </div>
+        </div>
+        <div id="player3" class="player"></div>
+      </div>
+      </div>
+
+
       <div id="userContainer">
       </div>
+
     </div>
 
 

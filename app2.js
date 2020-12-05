@@ -4,7 +4,7 @@ jQuery(() => {
     url: 'https://deckofcardsapi.com/api/deck/new/'
   }).then(
     (deck) => {
-      // console.log(deck);
+      console.log('works');
       getDeck(deck.deck_id);
   },
   (error) => {
@@ -18,6 +18,7 @@ jQuery(() => {
   const getDeck = (deckID) => {
     $.ajax({
       url: `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=52` //draws 52 cards from deck with unique deckID
+
     }).then(
       (data) => {
        // creates global deck variable
@@ -57,7 +58,7 @@ jQuery(() => {
   const dealCards = (num) => {
     $('#userContainer').css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
-      const $card = $('<img class = "card">').attr('src', deck.cards[0].image)
+      const $card = $('<img class = "card">').attr('src', deck.cards[0].image).attr('id', deck.cards[0].code)
       $('#userContainer').append($card)
       deck.cards.splice(0, 1)
     }
@@ -76,8 +77,10 @@ jQuery(() => {
     dealCards(num)
   })
 
-
-
+  $('#userContainer').on('click', $('.card'), (event) => {
+    const $discardPile = $('#discardPile').css('display', 'flex')
+    $discardPile.prepend($(event.target).removeClass('card').addClass('cardDiscard'))
+  })
 
 
 
