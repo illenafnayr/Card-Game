@@ -1,43 +1,175 @@
+/* * {
+  border: 1px solid gold;
+} */
+
 body {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   align-content: center;
+  justify-content: center;
 }
 
 #cardBack {
-  width: 226px;
-  height: 314px;
+  width: 25%;
   align-self: center;
 }
 
-.card {
-  width: 8%;
-  height:auto;
-  margin: 0.5% 1% 0.5% 1%
+.cardBackShuffle {
+  width: 25%;
+  align-self: center;
+  animation: shuffle;
+  animation-duration: 1s;
 }
 
-.user {
+@keyframes shuffle {
+    0% {transform: rotate(10deg);}
+    5% {transform: rotate(-10deg);}
+   10% {transform: rotate(5deg);}
+   15% {transform: rotate(-5deg);}
+   20% {transform: rotate(10deg);}
+   25% {transform: rotate(-10deg);}
+   30% {transform: rotate(5deg);}
+   35% {transform: rotate(-5deg);}
+   40% {transform: rotate(10deg);}
+   45% {transform: rotate(-10deg);}
+   50% {transform: rotate(5deg);}
+   55% {transform: rotate(-5deg);}
+   60% {transform: rotate(10deg);}
+   65% {transform: rotate(-10deg);}
+   70% {transform: rotate(5deg);}
+   75% {transform: rotate(-5deg);}
+   80% {transform: rotate(10deg);}
+   85% {transform: rotate(-10deg);}
+   90% {transform: rotate(5deg);}
+   95% {transform: rotate(-5deg);}
+  100% {transform: rotate(10deg);}
+}
+
+
+.button {
+  width: 10vw;
+  align-self: center;
+  margin: 5%;
+  text-align: center;
+}
+
+#userContainer {
+  visibility: hidden;
   display: flex;
-  justify-content: flex-start;
-  width: 95vw;
-  height: 10vw;
-  border: 2px solid black;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+  /* border: 1px solid black; */
+  flex-wrap: wrap;
+  overflow: scroll;
 }
 
-.dealerContainer {
+.card {
+  max-height: 95%;
+  width: 10%;
+  height: auto;
+  margin: 1%
+}
+
+.cardDiscard {
+  display:flex;
+  width: 100%;
+  height: 100%;
+}
+
+#cardBack {
+  width: 25%;
+  align-self: center;
+}
+
+.pileContainer {
+  display: flex;
+  height: 25%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#center {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-content: center;
-  width: 90vw;
+  align-items: center;
+  height: 25%;
+  /* border: 10px solid black; */
+}
+
+#buttons {
+  display: flex;
+  justify-content: center;
+  margin: 1%;
+}
+
+#cardzz {
+  display: flex;
+  justify-content: center;
 }
 
 
-.dealerFunctions input {
+#discardPile {
+  display: none;
+  flex-direction: column;
+  width: 25%;
+  height: 100%;
+  align-self: center;
+}
+
+#discardPileSub {
+  display: flex;
+  align-self: center;
   margin: 1%;
+  overflow: auto;
+}
+
+#discardPileTitle {
+  text-align: center;
+}
+
+#cardBack {
+  width: 25%;
+  height: 100%;
+  align-self: center;
+}
+
+/* #cardBackDiscard {
+  width:100%;
+  align-self: flex-start;
+} */
+
+.player {
+  border: 5px solid red;
+}
+
+#player2 {
+  display: none;
+  width: 95%;
+  height: 20vw;
+  align-self: center;
+}
+
+#player1, #player3{
+  display: none;
+  width: 25vw;
+  height: 60vh;
+}
+
+.showPlayer {
+
+}
+
+
+@media screen and (max-width: 600px) {
+
+  #shuffle{
+    font-size: 0.5rem;
+  }
 }
