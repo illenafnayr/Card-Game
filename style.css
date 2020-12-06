@@ -141,11 +141,13 @@
   align-self: center;
   margin: 5%;
   text-align: center;
+  border-radius: 100px;
 }
 
 #openModal {
   width: 10vw;
   align-items: center;
+  border-radius: 100px;
 }
 
 /* #user {

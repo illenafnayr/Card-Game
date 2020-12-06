@@ -53,10 +53,10 @@ jQuery(() => {
     }
     return array;
   }
-  const dealCards = (num, user) => {
+  const dealCards = (num, user, image, srcimg) => {
     $(user).css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
-      const $card = $('<img class = "card">').attr('src', deck.cards[0].image).attr('id', deck.cards[0].code)
+      const $card = $('<img class = "card">').attr('src', image).attr('id', deck.cards[0].code).attr('srcimg', srcimg)
       $(user).append($card)
       discardPile.cards.push(deck.cards.splice(0, 1)[0])//since .splice returns array and only splilcing one object use [0] to select that object
     }
@@ -70,7 +70,8 @@ jQuery(() => {
       $('#buttons').append('<button type="button" name="button" id="shuffleDiscard" class="button">Shuffle Discard Pile</button>')
     } else {
       return
-    }}
+    }
+  }
   const openModal = () => {
     $('#modal').css('display', 'flex')
   }
@@ -93,13 +94,13 @@ jQuery(() => {
     // deal individual card to user
   $('#cardBack').on('click', (event) => {
     let num = 1
-    dealCards(num, $('#user'))
+    dealCards(num, $('#user'), deck.cards[0].image)
   })
     // deal x amount of cards to user
   $('#dealCards').on('click', () => {
     let num = prompt('How many cards do you want to deal?', 'enter a number')
-    dealCards(num, $('#user'))
-    dealCards(num, $('#computer'))
+    dealCards(num, $('#user'), deck.cards[0].image, deck.cards[0].image)
+    dealCards(num, $('#computer'), $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue, deck.cards[0].image)
   })
     // discard selected card from user container
   $('#user').on('click','.card', () => {
@@ -110,6 +111,7 @@ jQuery(() => {
   $('#computer').on('click','.card', () => {
     discard(event)
     $(event.target).css('transform', 'none')
+    $(event.target).attr('src', $(event.target).attr('srcimg')) 
   })
     // shuffle discard pile and re append shuffled imgs
   $('#buttons').on('click','#shuffleDiscard', () => {
@@ -126,15 +128,17 @@ jQuery(() => {
   $('#cardBack').on('contextmenu', (event) => {
     event.preventDefault()
     let num = 1
-    dealCards(num, $('#computer'))
+    dealCards(num, $('#computer'), $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue, deck.cards[0].image)
   })
     // scale cards on hover
   $('.mainContainer').on('mouseenter', '.card', (event) => {
     $(event.target).css('transform', 'scale(1.10)')
   })
+    // makes cards scale(1.1x) on hover
   $('.mainContainer').on('mouseleave', '.card', (event) => {
     $(event.target).css('transform', 'none')
   })
+
     //Carousel event listeners
     let currentImgIndex = 0;
     let lastImgIndex = $('#carousel-images').children().length -1
