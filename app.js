@@ -100,7 +100,7 @@ jQuery(() => {
   $('#dealCards').on('click', () => {
     let num = prompt('How many cards do you want to deal?', 'enter a number')
     dealCards(num, $('#user'), deck.cards[0].image, deck.cards[0].image)
-    dealCards(num, $('#computer'), $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue, deck.cards[0].image)
+    dealCards(num, $('#computer'), $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue, deck.cards[0].image, $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue, deck.cards[0].image)
   })
     // discard selected card from user container
   $('#user').on('click','.card', () => {
@@ -111,7 +111,7 @@ jQuery(() => {
   $('#computer').on('click','.card', () => {
     discard(event)
     $(event.target).css('transform', 'none')
-    $(event.target).attr('src', $(event.target).attr('srcimg')) 
+    $(event.target).attr('src', $(event.target).attr('srcimg'))
   })
     // shuffle discard pile and re append shuffled imgs
   $('#buttons').on('click','#shuffleDiscard', () => {
@@ -168,6 +168,7 @@ jQuery(() => {
     const src = $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue
     $('#cardzz').children().eq(0).removeAttr('src')
     $('#cardzz').children().eq(0).attr('src', src)
+    $('#computer').children().attr('src', src)
   })
   // On Load
   // setTimeout(openModal,3000)
