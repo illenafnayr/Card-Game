@@ -124,8 +124,4 @@ jQuery(() => {
     let num = 1
     dealCardsComputer(num)
   })
-
-
-
-
 })
