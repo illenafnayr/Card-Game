@@ -30,6 +30,7 @@ jQuery(() => {
   let discardPile = {
     cards: []
   }
+
 //Functions:
   const shuffle = (array) => {
     // shuffledDeck.cards = []
@@ -60,7 +61,6 @@ jQuery(() => {
       discardPile.cards.push(deck.cards.splice(0, 1)[0])//since .splice returns array and only splilcing one object use [0] to select that object
     }
   }
-  
   const dealCardsUser = (num) => {
     $('#user').css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
@@ -80,7 +80,17 @@ jQuery(() => {
     } else {
       return
     }}
-//Event Handlers
+  const openModal = () => {
+    $('#modal').css('display', 'flex')
+  }
+
+//Event listeners
+    // open modal on click
+  $('#openModal').on('click', openModal)
+    // close modal and select deck on click
+  $('#selectDeck').on('click', () => {
+    $('#modal').css('display', 'none')
+  })
     // shuffle deck
   $('#shuffle').on('click',() => {
     $('#cardBack').addClass('cardBackShuffle').delay(1001).queue(() => {
@@ -94,21 +104,23 @@ jQuery(() => {
     let num = 1
     dealCardsUser(num)
   })
-    //deal x amount of cards to user
+    // deal x amount of cards to user
   $('#dealCards').on('click', () => {
     let num = prompt('How many cards do you want to deal?', 'enter a number')
     dealCardsUser(num)
     dealCardsComputer(num)
   })
-    //discard selected card from user container
+    // discard selected card from user container
   $('#user').on('click','.card', () => {
     discard(event)
+    $(event.target).css('transform', 'none')
   })
-    //discard selected card from computer container
+    // discard selected card from computer container
   $('#computer').on('click','.card', () => {
     discard(event)
+    $(event.target).css('transform', 'none')
   })
-    //shuffle discard pile and re append shuffled imgs
+    // shuffle discard pile and re append shuffled imgs
   $('#buttons').on('click','#shuffleDiscard', () => {
     shuffle(discardPile.cards)//shuffle discard array
     $('#discardPileSub').children().remove()//remove imgs from discard pile
@@ -119,10 +131,49 @@ jQuery(() => {
     }
     console.log(discardPile.cards, 'discard shuffled')
   })
-    //right click to deal top card to computer
+    // right click to deal top card to computer
   $('#cardBack').on('contextmenu', (event) => {
     event.preventDefault()
     let num = 1
     dealCardsComputer(num)
   })
+    // scale cards on hover
+  $('.mainContainer').on('mouseenter', '.card', (event) => {
+    $(event.target).css('transform', 'scale(1.25)')
+  })
+  $('.mainContainer').on('mouseleave', '.card', (event) => {
+    $(event.target).css('transform', 'none')
+  })
+    //Carousel event listeners
+    let currentImgIndex = 0;
+    let lastImgIndex = $('#carousel-images').children().length -1
+    const display = (display) => {
+      $('#carousel-images').children().eq(currentImgIndex).css('display', display)
+    }
+  $('#next').on('click', () => {
+    display('none')
+    if (currentImgIndex < lastImgIndex) {
+      currentImgIndex ++
+    } else {
+      currentImgIndex = 0
+    }
+    display('block')
+  })
+  $('#previous').on('click', () => {
+    display('none')
+    if (currentImgIndex > 0) {
+      currentImgIndex --
+    } else {
+      currentImgIndex = lastImgIndex
+    }
+    display('block')
+  })
+    //select deck img
+  $('#selectDeck').on('click',() => {
+    const src = $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue
+    $('#cardzz').children().eq(0).removeAttr('src')
+    $('#cardzz').children().eq(0).attr('src', src)
+  })
+  // On Load
+  // setTimeout(openModal,3000)
 })

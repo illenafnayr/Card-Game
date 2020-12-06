@@ -12,9 +12,29 @@
     <script type="text/javascript" src="app.js"></script>
   </head>
   <body>
-    <div class="container" id ="computer">
+    <!-- <header><h1>STUFF GOES HERE LIKE DIV</h1></header> -->
+    <button id="openModal">Select Your Deck</button>
+    <div id="modal">
+      <div id="modal-box">
+        <div id="carouselContainer">
+          <button id="previous"><</button>
+          <div id="carousel-images">
+            <img src="deckimgs\card-back1.png" alt="cardback-1" class="carouselImages" intrinsicsize='1280 x 1865'>
+            <img src="deckimgs\card-back2.png" alt="cardback-2" class="carouselImages" intrinsicsize='1280 x 1865'>
+            <img src="deckimgs\card-back3.png" alt="cardback-3" class="carouselImages" intrinsicsize='1280 x 1865'>
+            <img src="deckimgs\card-back4.png" alt="cardback-4" class="carouselImages" intrinsicsize='1280 x 1865'>
+            <img src="deckimgs\card-back5.jpg" alt="cardback-5" class="carouselImages" intrinsicsize='1280 x 1865'>
+            <img src="deckimgs\card-back6.png" alt="cardback-6" class="carouselImages" intrinsicsize='1280 x 1865'>
+          </div>
+          <button id="next">></button>
+        </div>
+        <button type="button" name="button" id='selectDeck'>Select</button>
+      </div>
     </div>
+
     <div class="mainContainer">
+      <div class="container" id ="computer">
+      </div>
       <div class="pileContainer">
         <div id="center">
           <div id="cardzz">

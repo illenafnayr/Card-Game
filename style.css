@@ -1,10 +1,87 @@
-/* * {
-  border: 1px solid gold;
-} */
+* {
+  /* border: 1px solid gold; */
+  background-color: #fffff1
+}
 
-body {
+/* body {
   display: flex;
   flex-direction: column;
+} */
+
+#modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#modal-box {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 50vw;
+  border-radius: 5px;
+  box-shadow:-4px 4px 5px rgba(0, 0, 0, 0.7);
+}
+
+#modal-box > button {
+  width: 10vw;
+  align-self: center;
+  margin-bottom: 2%;
+  border-radius: 100px;
+}
+
+#modal-box > h1, #modal-box > p, #modal-box > button {
+  background-color: inherit;
+}
+
+#carouselContainer {
+  display: flex;
+  background-color: inherit;
+}
+
+#carouselContainer > button {
+  width: 5vh;
+  height: 5vh;
+  align-self: center;
+  margin: 5%;
+  border-radius: 100px;
+  background-color: inherit;
+}
+
+#carousel-images {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2%;
+  /* border: 5px solid green; */
+  background-color: inherit;
+}
+
+
+#previous, #next {
+  height: 10vh
+}
+
+#carousel-images img:first-of-type {
+  display: block;
+}
+
+#carousel-images img {
+  display: none;
+}
+
+.carouselImages {
+  width: 100%;
+  background-color: inherit;
+  width:100%;
+  height:100%;
 }
 
 .mainContainer {
@@ -21,17 +98,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20vh;
+  height: 25vh;
   /* border: 1px solid black; */
   flex-wrap: wrap;
   overflow: auto;
   overflow-x: hidden;
 }
 
-#cardBack {
-  width: 25%;
-  align-self: center;
-}
 
 .cardBackShuffle {
   width: 25%;
@@ -71,6 +144,10 @@ body {
   text-align: center;
 }
 
+#openModal {
+  style: none;
+}
+
 /* #user {
 
 }
@@ -93,7 +170,7 @@ body {
 }
 
 #cardBack {
-  width: 25%;
+  width:25%;
   align-self: center;
   margin: 1%;
 }
@@ -142,12 +219,6 @@ body {
 
 #discardPileTitle {
   text-align: center;
-}
-
-#cardBack {
-  width: 25%;
-  height: 100%;
-  align-self: center;
 }
 
 /* #cardBackDiscard {
