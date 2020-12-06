@@ -53,22 +53,13 @@ jQuery(() => {
     }
     return array;
   }
-  const dealCardsComputer = (num) => {
-    $('#computer').css('visibility', 'visible')
+  const dealCards = (num, user) => {
+    $(user).css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
       const $card = $('<img class = "card">').attr('src', deck.cards[0].image).attr('id', deck.cards[0].code)
-      $('#computer').append($card)
+      $(user).append($card)
       discardPile.cards.push(deck.cards.splice(0, 1)[0])//since .splice returns array and only splilcing one object use [0] to select that object
     }
-  }
-  const dealCardsUser = (num) => {
-    $('#user').css('visibility', 'visible')
-    for (let i = 0; i < num; i++) {
-      const $card = $('<img class = "card">').attr('src', deck.cards[0].image).attr('id', deck.cards[0].code)
-      $('#user').append($card)
-      discardPile.cards.push(deck.cards.splice(0, 1)[0])//since .splice returns array and only splilcing one object use [0] to select that object
-    }
-    console.log(deck, 'deck remaining');
   }
   const discard = (event) => {
     $('#discardPile').css('display', 'flex')
@@ -102,13 +93,13 @@ jQuery(() => {
     // deal individual card to user
   $('#cardBack').on('click', (event) => {
     let num = 1
-    dealCardsUser(num)
+    dealCards(num, $('#user'))
   })
     // deal x amount of cards to user
   $('#dealCards').on('click', () => {
     let num = prompt('How many cards do you want to deal?', 'enter a number')
-    dealCardsUser(num)
-    dealCardsComputer(num)
+    dealCards(num, $('#user'))
+    dealCards(num, $('#computer'))
   })
     // discard selected card from user container
   $('#user').on('click','.card', () => {
@@ -135,11 +126,11 @@ jQuery(() => {
   $('#cardBack').on('contextmenu', (event) => {
     event.preventDefault()
     let num = 1
-    dealCardsComputer(num)
+    dealCards(num, $('#computer'))
   })
     // scale cards on hover
   $('.mainContainer').on('mouseenter', '.card', (event) => {
-    $(event.target).css('transform', 'scale(1.25)')
+    $(event.target).css('transform', 'scale(1.10)')
   })
   $('.mainContainer').on('mouseleave', '.card', (event) => {
     $(event.target).css('transform', 'none')
