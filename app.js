@@ -60,6 +60,7 @@ jQuery(() => {
       discardPile.cards.push(deck.cards.splice(0, 1)[0])//since .splice returns array and only splilcing one object use [0] to select that object
     }
   }
+  
   const dealCardsUser = (num) => {
     $('#user').css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
