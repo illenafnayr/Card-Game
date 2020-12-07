@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Niconne&display=swap');
+
 * {
   /* border: 1px solid gold; */
-  background-color: #fffff1
+  background-color: #fffff1;
+  font-family: 'Niconne', cursive;
+  font-size: 1rem;
 }
 
 /* body {
@@ -24,6 +28,7 @@
 #modal-box {
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: white;
   width: 50vh;
   border-radius: 5px;
@@ -38,8 +43,9 @@
   background-color: inherit;
 }
 
-#modal-box > h1, #modal-box > {
+#modal-box > h2 {
   background-color: inherit;
+  font-size: 2rem;
 }
 
 #carouselContainer {
@@ -103,6 +109,10 @@
   flex-wrap: wrap;
   overflow: auto;
   overflow-x: hidden;
+}
+
+#reset {
+  border-radius: 50px
 }
 
 .cardBackShuffle {

@@ -1,27 +1,29 @@
 jQuery(() => {
 //.ajax junk:
-  $.ajax({
-    url: 'https://deckofcardsapi.com/api/deck/new/'
-  }).then(
-    (deck) => {
-      // console.log(deck.deck_id);
-      getDeck(deck.deck_id);
-  },
-  (error) => {
-    console.log('error');
-  })
-  const getDeck = (deckID) => {
+  const run = () => {
     $.ajax({
-      url: `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=52` //draws 52 cards from deck with unique deckID
+      url: 'https://deckofcardsapi.com/api/deck/new/'
     }).then(
-      (data) => {
-       // creates global deck variable
-      deck.cards = data.cards
-      console.log(deck, 'initial deck');
+      (deckinit) => {
+        // console.log(deck.deck_id);
+        getDeck(deckinit.deck_id);
     },
-    () => {
+    (error) => {
       console.log('error');
     })
+    const getDeck = (deckID) => {
+      $.ajax({
+        url: `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=52` //draws 52 cards from deck with unique deckID
+      }).then(
+        (data) => {
+         // creates global deck variable
+        deck.cards = data.cards
+        console.log(deck, 'initial deck');
+      },
+      () => {
+        console.log('error');
+      })
+    }
   }
 //Deck Piles:
   let deck = {
@@ -53,18 +55,33 @@ jQuery(() => {
     }
     return array;
   }
-  const dealCards = (num, user, image, srcimg) => {
-    $(user).css('visibility', 'visible')
+
+  const dealCardsUser = (num) => {
+    $('#user').css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
-      const $card = $('<img class = "card">').attr('src', image).attr('id', deck.cards[0].code).attr('srcimg', srcimg)
-      $(user).append($card)
-      discardPile.cards.push(deck.cards.splice(0, 1)[0])//since .splice returns array and only splilcing one object use [0] to select that object
+      const $card = $('<img class = "card">').attr('src', deck.cards[0].image).attr('id', deck.cards[0].code)
+      $('#user').append($card)
+      discardPile.cards.push(deck.cards.splice(0, 1)[0])
+      console.log(deck.cards);
+      console.log(discardPile.cards);//since .splice returns array and only splilcing one object use [0] to select that object
     }
   }
+
+  const dealCardsComputer = (num) => {
+    $('#computer').css('visibility', 'visible')
+    for (let i = 0; i < num; i++) {
+      const $card = $('<img class = "card">').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue).attr('id', deck.cards[0].code).attr('srcimg', deck.cards[0].image)
+      $('#computer').append($card)
+      discardPile.cards.push(deck.cards.splice(0, 1)[0])
+      console.log(deck.cards);
+      console.log(discardPile.cards);//since .splice returns array and only splilcing one object use [0] to select that object
+    }
+  }
+
   const discard = (event) => {
     $('#discardPile').css('display', 'flex')
     const $discardPile = $('#discardPileSub')
-    console.log(discardPile, 'disccardPile');
+    // console.log(discardPile, 'disccardPile');
     $discardPile.prepend($(event.target).removeClass('card').addClass('cardDiscard'))
     if ($('#buttons').children().eq(2).length === 0) {
       $('#buttons').append('<button type="button" name="button" id="shuffleDiscard" class="button">Shuffle Discard Pile</button>')
@@ -99,8 +116,8 @@ jQuery(() => {
     // deal x amount of cards to user
   $('#dealCards').on('click', () => {
     let num = prompt('How many cards do you want to deal?', 'enter a number')
-    dealCards(num, $('#user'), deck.cards[0].image, deck.cards[0].image)
-    dealCards(num, $('#computer'), $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue, deck.cards[0].image, $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue, deck.cards[0].image)
+    dealCardsUser(num)
+    dealCardsComputer(num)
   })
     // discard selected card from user container
   $('#user').on('click','.card', () => {
@@ -138,6 +155,18 @@ jQuery(() => {
   $('.mainContainer').on('mouseleave', '.card', (event) => {
     $(event.target).css('transform', 'none')
   })
+    // reset deck
+  $('#reset').on('click',() => {
+    $('#user').children().remove()
+    $('#computer').children().remove()
+    $('#discardPileSub').children().remove()
+    $('#discardPile').css('display', 'none')
+    discardPile.cards = []
+    deck.cards = []
+    console.log(discardPile);
+    console.log(deck);
+    run
+  })
 
     //Carousel event listeners
     let currentImgIndex = 0;
@@ -171,5 +200,6 @@ jQuery(() => {
     $('#computer').children().attr('src', src)
   })
   // On Load
-  // setTimeout(openModal,3000)
+  run()
+  // setTimeout(openModal,2000)
 })
