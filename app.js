@@ -25,13 +25,14 @@ jQuery(() => {
       })
     }
   }
-//Deck Piles:
+//Deck Piles (Global):
   let deck = {
     cards: []
   }
   let discardPile = {
     cards: []
   }
+
 //Functions:
   const shuffle = (array) => {
     // shuffledDeck.cards = []
@@ -57,11 +58,10 @@ jQuery(() => {
   const dealCardsUser = (num) => {
     $('#user').css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
-      const $card = $('<img class = "card">').attr('src', deck.cards[0].image).attr('id', deck.cards[0].code)
+      const $card = $('<img class = "card">').attr('src', deck.cards[0].image).attr('id', deck.cards[0].code).attr('srcimg', deck.cards[0].image)
       $('#user').append($card)
-      discardPile.cards.push(deck.cards.splice(0, 1)[0])
-      console.log(deck.cards);
-      console.log(discardPile.cards);//since .splice returns array and only splilcing one object use [0] to select that object
+      discardPile.cards.push(deck.cards.splice(0, 1)[0]);//since .splice returns array and only splilcing one object use [0] to select that object
+      removeDeckImg()
     }
   }
   const dealCardsComputer = (num) => {
@@ -70,6 +70,23 @@ jQuery(() => {
       const $card = $('<img class = "card">').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue).attr('id', deck.cards[0].code).attr('srcimg', deck.cards[0].image)
       $('#computer').append($card)
       discardPile.cards.push(deck.cards.splice(0, 1)[0]);//since .splice returns array and only splilcing one object use [0] to select that object
+      removeDeckImg()
+    }
+  }
+  const dealCards = (num, user, image, srcimg) => {
+    $(user).css('visibility', 'visible')
+    for (let i = 0; i < num; i++) {
+      const $card = $('<img class = "card">').attr('src', image).attr('srcimg', srcimg)
+      $(user).append($card)
+      discardPile.cards.push(deck.cards.splice(0, 1)[0]);//since .splice returns array and only splilcing one object use [0] to select that object
+      window.forDealing
+      removeDeckImg()
+    }
+  }
+  const removeDeckImg = () => {
+    if (discardPile.cards.length === 52) {
+      $('#cardzz').children().eq(0).remove()
+      console.log('asdfasd');
     }
   }
   const discard = (event) => {
@@ -86,6 +103,16 @@ jQuery(() => {
   const openModal = () => {
     $('#modal').css('display', 'flex')
   }
+  const initGoFish = () => {
+    if ($('#computer').children().length === 7 && $('#user').children().length === 7) {
+      $('#goFishModal').css('display', 'flex')
+      console.log('init go fish');
+    }
+  }
+  const playGoFish = () => {
+    console.log('Play Go fish!');
+  }
+
 //Event listeners
     // open modal on click
   $('#openModal').on('click', openModal)
@@ -101,16 +128,29 @@ jQuery(() => {
     shuffle(deck.cards)
     console.log(deck, 'deck shuffled')
   })
-    // deal individual card to user
+    // deal individual card to user on click
   $('#cardBack').on('click', (event) => {
     let num = 1
-    dealCardsUser(num)
+    dealCards(num, $('#user'), deck.cards[0].image, deck.cards[0].image )
+    initGoFish()
   })
+  // right click to deal top card to computer
+  $('#cardBack').on('contextmenu', (event) => {
+  event.preventDefault()
+  let num = 1
+  dealCards(num, $('#computer'), $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue, deck.cards[0].image);
+  initGoFish()
+})
     // deal x amount of cards to user
   $('#dealCards').on('click', () => {
     let num = prompt('How many cards do you want to deal?', 'enter a number')
+    // dealCards(num, $('#user'), deck.cards.splice(0, 1)[0], deck.cards.splice(0, 1)[0].image)
+    // console.log(deck.cards[0].image);
+    // debugger;
+    // dealCards(num, $('#computer'), $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue, deck.cards.splice(0, 1)[0].image)
     dealCardsUser(num)
     dealCardsComputer(num)
+    initGoFish()
   })
     // discard selected card from user container
   $('#user').on('click','.card', () => {
@@ -133,12 +173,6 @@ jQuery(() => {
       $discardPile.prepend($discardCard)
     }
     console.log(discardPile.cards, 'discard shuffled')
-  })
-    // right click to deal top card to computer
-  $('#cardBack').on('contextmenu', (event) => {
-    event.preventDefault()
-    let num = 1
-    dealCardsComputer(num)
   })
     // scale cards on hover
   $('.mainContainer').on('mouseenter', '.card', (event) => {
@@ -191,7 +225,15 @@ jQuery(() => {
     $('#cardzz').children().eq(0).attr('src', src)
     $('#computer').children().attr('src', src)
   })
+    //Choose to play go Fish
+  $('#goFishYes').on('click', () => {
+    $('#goFishModal').css('display', 'none')
+    playGoFish()
+  })
+    //Choose NOT to play go Fish
+  $('#goFishNo').on('click', () => {
+    $('#goFishModal').css('display', 'none')
+  })
   // On Load
   run()
-  // setTimeout(openModal,2000)
 })
