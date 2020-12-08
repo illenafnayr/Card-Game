@@ -12,7 +12,7 @@
     <script type="text/javascript" src="app.js"></script>
   </head>
   <body>
-<!-- Go Fish Modal -->
+<!-- Go Fish Modals -->
     <div id="goFishModal" class="modal">
       <div id="goFishModal-box" class="modal-box">
         <h2>You are set up to play Go Fish!</h2>
@@ -32,6 +32,25 @@
       </div>
     </div>
 
+    <div id="computerSaysModal" class="modal">
+      <div id="computerSays-box" class="modal-box">
+        <h2>Computer Says:</h2>
+        <div id="computerSaysModalSub" class="modal-boxSub">
+        </div>
+        <button id="goFish">Draw From Deck</button>
+      </div>
+    </div>
+
+    <div id="noMatch" class="modal">
+      <div id="noMatch-box" class="modal-box">
+        <h2>You dont have any!</h2>
+        <div id="computerSaysModalSub" class="modal-boxSub">
+          Computer draws a card.
+        </div>
+        <button id="beginTurn">Begin Your Turn</button>
+      </div>
+    </div>
+
     <div id="computerTurnModal" class="modal">
       <div id="computerTurnModal-box" class="modal-box">
         <h2>Computer asks for:</h2>
@@ -40,6 +59,22 @@
         <button id="give">Give Card</button>
       </div>
     </div>
+<!-- War Modals -->
+    <div id="warModal" class="modal">
+      <div id="warModal-box" class="modal-box">
+        <h2>You are set up to play War!</h2>
+        <h3>Would you like to play?</h3>
+        <div id="warOptions" class="modal-boxSub">
+          <button id="warYes">Yes</button>
+          <button id="warNo">No</button>
+        </div>
+      </div>
+    </div
+
+
+
+
+
 
 <!-- Select Deck Modal -->
     <div id="modal">

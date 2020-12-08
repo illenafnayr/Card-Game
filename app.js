@@ -84,7 +84,7 @@ jQuery(() => {
   }
   const removeDeckImg = () => {
     if (discardPile.cards.length === 52) {
-      $('#cardzz').children().eq(0).remove()
+      $('#cardzz').children().eq(0).css('display','none')
       console.log('asdfasd');
     }
   }
@@ -92,7 +92,7 @@ jQuery(() => {
     $('#discardPile').css('display', 'flex')
     const $discardPile = $('#discardPileSub')
     // console.log(discardPile, 'disccardPile');
-    $discardPile.prepend($(event.target).removeClass('card').addClass('cardDiscard'))
+    $discardPile.prepend($(event.target).removeClass('card').addClass('cardDiscard').css('position', 'static').css('z-index', '0'))
     if ($('#buttons').children().eq(2).length === 0) {
       $('#buttons').append('<button type="button" name="button" id="shuffleDiscard" class="button">Shuffle Discard Pile</button>')
     } else {
@@ -108,60 +108,71 @@ jQuery(() => {
       console.log('init go fish');
     }
   }
-
-  const userTurn = () => {
-    console.log('Play Go fish!');
-    $('#askForModal').css('display', 'flex')
-    $('#user').children().clone().removeClass().addClass('option').appendTo($('#askForOptions'))
-    $('#askForOptions').on('click', '.option', (event) => {
-      console.log($(event.target)[0].id.charAt(0));
-      for (let i = 0; i < $('#computer').children().length; i++) {
-        if ($('#computer').children().eq(i)[0].id.charAt(0) === $(event.target)[0].id.charAt(0)) {
-          // console.log($('#computer').children().eq(i)[0].id.charAt(0), 'computer id');
-          // console.log($(event.target)[0].id.charAt(0), 'event target id');
-          $('#user').prepend($('#computer').children().eq(i).removeAttr('src').attr('src', $('#computer').children().eq(i)[0].attributes.srcimg.nodeValue ))
-          $('#askForModal').css('display', 'none')
-          console.log('its a match');
-          return
-        } else {
-          alert('No Matches, Go Fish')
-            drawCardUser(1)
-            $('#askForModal').css('display', 'none')
-            break
-        }
-      }
-    })
-  }
-  const computerTurn = () => {
-    let randomIndexNum = Math.floor(Math.random() * $('#computer').children().length-1)
-    let choice = $('#computer').children().eq(randomIndexNum)[0].id.charAt(0)
-    $('#computerTurnModal').css('display', 'flex')
-    $('#computerTurnModalSub').append($('<h1>').text(choice))
-    $('#give').on('click', () => {
-      for (let i = 0; i < $('#user').children().length; i++) {
-        if (choice === $('#user').children().eq(i)[0].id.charAt(0)) {
-            $('#computer').prepend($('#user').children().eq(i))
-            $('#computerTurnModal').css('display', 'none')
-            // $('#computer').children().eq(0).removeAttr('src').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue)
-            return
-        } else {
-          alert('computer didnt make a match');
-          drawCardComputer(1)
-          $('#computerTurnModal').css('display', 'none')
-          break
-        }
-      }
-    })
-  }
   const playGoFish = () => {
+    const userTurn = () => {
+      console.log('Play Go fish!');
+      $('#askForModal').css('display', 'flex')
+      $('#user').children().clone().removeClass().addClass('option').appendTo($('#askForOptions'))
+      $('#askForOptions').on('click', '.option', (event) => {
+        console.log($(event.target)[0].id.charAt(0));
+        for (let i = 0; i < $('#computer').children().length; i++) {
+          if ($('#computer').children().eq(i)[0].id.charAt(0) === $(event.target)[0].id.charAt(0)) {
+            // console.log($('#computer').children().eq(i)[0].id.charAt(0), 'computer id');
+            // console.log($(event.target)[0].id.charAt(0), 'event target id');
+            $('#user').prepend($('#computer').children().eq(i).removeAttr('src').attr('src', $('#computer').children().eq(i)[0].attributes.srcimg.nodeValue ))
+            $('#askForModal').css('display', 'none')
+            console.log('its a match');
+            return
+          } else {
+              $('#askForModal').css('display', 'none')
+              $('#computerSaysModal').css('display', 'flex')
+              $('#computerSaysModalSub').text('Go Fish!')
+              $('#goFish').on('click', () => {
+                drawCardUser(1)
+                $('#computerSaysModal').css('display', 'none')
+              })
+              break
+          }
+        }
+      })
+    }
+    const computerTurn = () => {
+      let randomIndexNum = Math.floor(Math.random() * $('#computer').children().length-1)
+      let choice = $('#computer').children().eq(randomIndexNum)[0].id.charAt(0)
+      $('#computerTurnModal').css('display', 'flex')
+      $('#computerTurnModalSub').append($('<h1>').text(choice))
+      $('#give').on('click', () => {
+        for (let i = 0; i < $('#user').children().length; i++) {
+          if (choice === $('#user').children().eq(i)[0].id.charAt(0)) {
+              $('#computer').prepend($('#user').children().eq(i))
+              $('#computerTurnModal').css('display', 'none')
+              // $('#computer').children().eq(0).removeAttr('src').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue)
+              return
+          } else {
+            $('#computerTurnModal').css('display', 'none')
+            $('#noMatch').css('display', 'flex')
+            $('#beginTurn').on('click', () => {
+              drawCardComputer(1)
+              $('#noMatch').css('display', 'none')
+            })
+            break
+          }
+        }
+      })
+    }
     userTurn()
 }
-  // const playWar = () => {
-  //
-  // }
-  // const playBlackjack = () => {
-  //
-  // }
+
+
+  const initWar = () => {
+    if ($('#computer').children().length === 26 && $('#user').children().length === 26) {
+      $('#warModal').css('display', 'flex')
+      console.log('init go fish');
+    }
+  }
+  const playWar = () => {
+    console.log('play war!');
+  }
 //Event listeners
     // open modal on click
   $('#openModal').on('click', openModal)
@@ -182,6 +193,7 @@ jQuery(() => {
     let num = 1
     dealCards(num, $('#user'), deck.cards[0].image, deck.cards[0].image )
     initGoFish()
+    initWar()
   })
   // right click to deal top card to computer
   $('#cardBack').on('contextmenu', (event) => {
@@ -189,6 +201,7 @@ jQuery(() => {
   let num = 1
   dealCards(num, $('#computer'), $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue, deck.cards[0].image);
   initGoFish()
+  initWar()
 })
     // deal x amount of cards to user
   $('#dealCards').on('click', () => {
@@ -200,6 +213,7 @@ jQuery(() => {
     drawCardUser(num)
     drawCardComputer(num)
     initGoFish()
+    initWar()
   })
     // discard selected card from user container
   $('#user').on('click','.card', () => {
@@ -235,8 +249,11 @@ jQuery(() => {
   $('#reset').on('click',() => {
     $('#user').children().remove()
     $('#computer').children().remove()
+    $('#user').css('position', 'static')
+    $('#computer').css('position', 'static')
     $('#discardPileSub').children().remove()
     $('#discardPile').css('display', 'none')
+    $('#cardzz').children().eq(0).css('display','inline')
     discardPile.cards = []
     deck.cards = []
     console.log(discardPile);
@@ -274,6 +291,8 @@ jQuery(() => {
     $('#cardzz').children().eq(0).attr('src', src)
     $('#computer').children().attr('src', src)
   })
+
+//////////Go Fish Initiation////////////////////
     //Choose to play go Fish
   $('#goFishYes').on('click', () => {
     $('#goFishModal').css('display', 'none')
@@ -283,6 +302,23 @@ jQuery(() => {
   $('#goFishNo').on('click', () => {
     $('#goFishModal').css('display', 'none')
   })
+
+  //////////War Initiation////////////////////
+      //Choose to play go Fish
+    $('#warYes').on('click', () => {
+      $('#warModal').css('display', 'none')
+      $('#user').css('position', 'relative')
+      $('#computer').css('position', 'relative')
+      for (let i = 0; i < 26; i++) {
+        $('#user').children().eq(i).css('z-index', i.toString()).css('position', 'absolute').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue)
+        $('#computer').children().eq(i).css('z-index', i.toString()).css('position', 'absolute')
+      }
+      playWar()
+    })
+      //Choose NOT to play go Fish
+    $('#warNo').on('click', () => {
+      $('#warModal').css('display', 'none')
+    })
   // On Load
   run()
 })
