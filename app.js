@@ -94,7 +94,7 @@ jQuery(() => {
     // console.log(discardPile, 'disccardPile');
     $discardPile.prepend($(event.target).removeClass('card').addClass('cardDiscard').css('position', 'static').css('z-index', '0'))
     if ($('#buttons').children().eq(2).length === 0) {
-      $('#buttons').append('<button type="button" name="button" id="shuffleDiscard" class="button">Shuffle Discard Pile</button>')
+      $('#buttons').append('<button id="shuffleDiscard" class="button">Shuffle Discard Pile</button>')
     } else {
       return
     }
@@ -130,6 +130,7 @@ jQuery(() => {
               $('#goFish').on('click', () => {
                 drawCardUser(1)
                 $('#computerSaysModal').css('display', 'none')
+                computerTurn()
               })
               break
           }
@@ -157,13 +158,12 @@ jQuery(() => {
             })
             break
           }
+
         }
       })
     }
     userTurn()
 }
-
-
   const initWar = () => {
     if ($('#computer').children().length === 26 && $('#user').children().length === 26) {
       $('#warModal').css('display', 'flex')
@@ -172,7 +172,18 @@ jQuery(() => {
   }
   const playWar = () => {
     console.log('play war!');
+    const userCard = $('#user').children().eq(0)
+    const computerCard = $('#computer').children().eq(0)
+    $('#war').on('click', () => {
+      $('#userWar').append(userCard)
+      userCard.css('width', '85%').css('height', 'auto').css('z-index','0').css('position','static').attr('src', $('#userWar').children().eq(1)[0].attributes[3].nodeValue)
+
+      $('#computerWar').append(computerCard)
+      computerCard.css('width', '85%').css('height', 'auto').css('z-index','0').css('position','static').attr('src', $('#computerWar').children().eq(1)[0].attributes[3].nodeValue)
+    })
   }
+
+
 //Event listeners
     // open modal on click
   $('#openModal').on('click', openModal)
@@ -253,13 +264,23 @@ jQuery(() => {
     $('#computer').css('position', 'static')
     $('#discardPileSub').children().remove()
     $('#discardPile').css('display', 'none')
+    $('#shuffleDiscard').remove()
     $('#cardzz').children().eq(0).css('display','inline')
+    $('*').css('background-image', 'none')
+    $('.modal-box').css('background-color', 'white')
+    $('#warHeader').remove()
+    $('#dealCards').css('display','inline-block')
+    $('#shuffle').css('display', 'inline-block')
+    $('#openModal').css('display', 'inline-block')
+    $('#battlefield').css('display', 'none')
+    $('#war').css('display','none')
     discardPile.cards = []
     deck.cards = []
     console.log(discardPile);
     console.log(deck);
     run()
   })
+
     //Carousel event listeners
     let currentImgIndex = 0;
     let lastImgIndex = $('#carousel-images').children().length -1
@@ -304,18 +325,27 @@ jQuery(() => {
   })
 
   //////////War Initiation////////////////////
-      //Choose to play go Fish
+      //Choose to play WAR!
     $('#warYes').on('click', () => {
       $('#warModal').css('display', 'none')
       $('#user').css('position', 'relative')
       $('#computer').css('position', 'relative')
+      $('*').css('background-color', 'none')
+      $('*').css('background-image', 'url("https://cdn.pixabay.com/photo/2013/07/13/12/05/army-159125_1280.png")')
+      $('button').css('background-image', 'none').css('background-color', '#fffff1')
+      $('body').prepend($('<h1 id = "warHeader">WAR!!!</h1>'))
+      $('#dealCards').css('display','none')
+      $('#shuffle').css('display', 'none')
+      $('#openModal').css('display', 'none')
+      $('#battlefield').css('display', 'flex')
+      $('#war').css('display','inline-block')
       for (let i = 0; i < 26; i++) {
         $('#user').children().eq(i).css('z-index', i.toString()).css('position', 'absolute').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue)
         $('#computer').children().eq(i).css('z-index', i.toString()).css('position', 'absolute')
       }
       playWar()
     })
-      //Choose NOT to play go Fish
+      //Choose NOT to war
     $('#warNo').on('click', () => {
       $('#warModal').css('display', 'none')
     })

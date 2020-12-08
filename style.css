@@ -7,11 +7,12 @@
   font-size: 1rem;
 }
 
-/* body {
-  display: flex;
-  flex-direction: column;
-} */
-
+body > h1 {
+  background-image: url("https://cdn.pixabay.com/photo/2013/07/13/12/05/army-159125_1280.png");
+  font-size: 5em;
+  text-align: center;
+  color: white;
+}
 
 /*Go Fish Modal */
 .modal {
@@ -20,12 +21,13 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 1px solid black;
   z-index: 1;
   width: 100%;
   height: 100%;
   position: fixed;
   top: 0;
-  left: 0; 
+  left: 0;
 }
 
 .modal-box {
@@ -59,6 +61,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 100;
 }
 
 #modal-box {
@@ -235,13 +238,29 @@
   border-radius: 100px;
 }
 
-/* #user {
-
+#battlefield {
+  display: none;
+  justify-content: space-between;
 }
 
-#computer {
+#userWar, #computerWar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 5%;
+  width: 25vw;
+  height: auto;
+}
 
-} */
+#userWar > h2, #computerWar >h2 {
+  color: white;
+  font-size: 2rem;
+}
+
+#war{
+  display: none;
+  margin: 1%;
+}
 
 .card {
   height: 85%;
