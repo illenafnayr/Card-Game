@@ -12,19 +12,36 @@
     <script type="text/javascript" src="app.js"></script>
   </head>
   <body>
-    <!-- <header><h1>STUFF GOES HERE LIKE DIV</h1></header> -->
-
-    <div id="goFishModal">
-      <div id="goFishModal-box">
+<!-- Go Fish Modal -->
+    <div id="goFishModal" class="modal">
+      <div id="goFishModal-box" class="modal-box">
         <h2>You are set up to play Go Fish!</h2>
         <h3>Would you like to play?</h3>
-        <div id="goFishModalOptions">
+        <div id="goFishModalOptions" class="modal-boxSub">
           <button id="goFishYes">Yes</button>
           <button id="goFishNo">No</button>
         </div>
       </div>
     </div>
 
+    <div id="askForModal" class="modal">
+      <div id="askForModal-box" class="modal-box">
+        <h2>What Would you like to ask for</h2>
+        <div id="askForOptions" class="modal-boxSub">
+        </div>
+      </div>
+    </div>
+
+    <div id="computerTurnModal" class="modal">
+      <div id="computerTurnModal-box" class="modal-box">
+        <h2>Computer asks for:</h2>
+        <div id="computerTurnModalSub" class="modal-boxSub">
+        </div>
+        <button id="give">Give Card</button>
+      </div>
+    </div>
+
+<!-- Select Deck Modal -->
     <div id="modal">
       <div id="modal-box">
         <h2>Select Your Deck</h2>
@@ -44,6 +61,7 @@
       </div>
     </div>
 
+<!-- Main Content -->
     <div class="mainContainer">
       <div class="container" id ="computer">
       </div>
@@ -68,5 +86,6 @@
       <div class="container" id="user">
       </div>
     </div>
+
   </body>
 </html>

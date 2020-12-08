@@ -55,20 +55,20 @@ jQuery(() => {
     }
     return array;
   }
-  const dealCardsUser = (num) => {
+  const drawCardUser = (num) => {
     $('#user').css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
       const $card = $('<img class = "card">').attr('src', deck.cards[0].image).attr('id', deck.cards[0].code).attr('srcimg', deck.cards[0].image)
-      $('#user').append($card)
+      $('#user').prepend($card)
       discardPile.cards.push(deck.cards.splice(0, 1)[0]);//since .splice returns array and only splilcing one object use [0] to select that object
       removeDeckImg()
     }
   }
-  const dealCardsComputer = (num) => {
+  const drawCardComputer = (num) => {
     $('#computer').css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
       const $card = $('<img class = "card">').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue).attr('id', deck.cards[0].code).attr('srcimg', deck.cards[0].image)
-      $('#computer').append($card)
+      $('#computer').prepend($card)
       discardPile.cards.push(deck.cards.splice(0, 1)[0]);//since .splice returns array and only splilcing one object use [0] to select that object
       removeDeckImg()
     }
@@ -76,10 +76,9 @@ jQuery(() => {
   const dealCards = (num, user, image, srcimg) => {
     $(user).css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
-      const $card = $('<img class = "card">').attr('src', image).attr('srcimg', srcimg)
-      $(user).append($card)
-      discardPile.cards.push(deck.cards.splice(0, 1)[0]);//since .splice returns array and only splilcing one object use [0] to select that object
-      window.forDealing
+      const $card = $('<img class = "card">').attr('src', image).attr('srcimg', srcimg).attr('id', deck.cards[0].code)
+      $(user).prepend($card)
+      discardPile.cards.push(deck.cards.splice(0, 1)[0]);//since .splice returns array and only splilcing one object use [0] to select that object in the array
       removeDeckImg()
     }
   }
@@ -104,15 +103,65 @@ jQuery(() => {
     $('#modal').css('display', 'flex')
   }
   const initGoFish = () => {
-    if ($('#computer').children().length === 7 && $('#user').children().length === 7) {
+    if ($('#computer').children().length === 7 && $('#user').children().length === 7 && discardPile.cards.length === 14) {
       $('#goFishModal').css('display', 'flex')
       console.log('init go fish');
     }
   }
-  const playGoFish = () => {
-    console.log('Play Go fish!');
-  }
 
+  const userTurn = () => {
+    console.log('Play Go fish!');
+    $('#askForModal').css('display', 'flex')
+    $('#user').children().clone().removeClass().addClass('option').appendTo($('#askForOptions'))
+    $('#askForOptions').on('click', '.option', (event) => {
+      console.log($(event.target)[0].id.charAt(0));
+      for (let i = 0; i < $('#computer').children().length; i++) {
+        if ($('#computer').children().eq(i)[0].id.charAt(0) === $(event.target)[0].id.charAt(0)) {
+          // console.log($('#computer').children().eq(i)[0].id.charAt(0), 'computer id');
+          // console.log($(event.target)[0].id.charAt(0), 'event target id');
+          $('#user').prepend($('#computer').children().eq(i).removeAttr('src').attr('src', $('#computer').children().eq(i)[0].attributes.srcimg.nodeValue ))
+          $('#askForModal').css('display', 'none')
+          console.log('its a match');
+          return
+        } else {
+          alert('No Matches, Go Fish')
+            drawCardUser(1)
+            $('#askForModal').css('display', 'none')
+            break
+        }
+      }
+    })
+  }
+  const computerTurn = () => {
+    let randomIndexNum = Math.floor(Math.random() * $('#computer').children().length-1)
+    let choice = $('#computer').children().eq(randomIndexNum)[0].id.charAt(0)
+    $('#computerTurnModal').css('display', 'flex')
+    $('#computerTurnModalSub').append($('<h1>').text(choice))
+    $('#give').on('click', () => {
+      for (let i = 0; i < $('#user').children().length; i++) {
+        if (choice === $('#user').children().eq(i)[0].id.charAt(0)) {
+            $('#computer').prepend($('#user').children().eq(i))
+            $('#computerTurnModal').css('display', 'none')
+            // $('#computer').children().eq(0).removeAttr('src').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue)
+            return
+        } else {
+          alert('computer didnt make a match');
+          drawCardComputer(1)
+          $('#computerTurnModal').css('display', 'none')
+          break
+        }
+      }
+    })
+  }
+  const playGoFish = () => {
+    userTurn()
+}
+  // const playWar = () => {
+  //
+  // }
+  // const playBlackjack = () => {
+  //
+  // }
 //Event listeners
     // open modal on click
   $('#openModal').on('click', openModal)
@@ -148,8 +197,8 @@ jQuery(() => {
     // console.log(deck.cards[0].image);
     // debugger;
     // dealCards(num, $('#computer'), $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue, deck.cards.splice(0, 1)[0].image)
-    dealCardsUser(num)
-    dealCardsComputer(num)
+    drawCardUser(num)
+    drawCardComputer(num)
     initGoFish()
   })
     // discard selected card from user container
