@@ -302,6 +302,7 @@ jQuery(() => {
     $('#openModal').css('display', 'inline-block')
     $('#battlefield').css('display', 'none')
     $('#war').css('display','none')
+    $('#nextRound').css('display', 'none')
     discardPile.cards = []
     deck.cards = []
     console.log(discardPile);
@@ -368,6 +369,7 @@ jQuery(() => {
       $('#battlefield').css('display', 'flex')
       $('#war').css('display','inline-block')
       $('#computer').off('click','.card')
+      $('#nextRound').css('display', 'inline-block')
 
       for (let i = 0; i < 26; i++) {
         $('#user').children().eq(i).css('z-index', i.toString()).css('position', 'absolute').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue)

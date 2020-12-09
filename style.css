@@ -262,6 +262,11 @@ body > h1 {
   margin: 1%;
 }
 
+#nextRound {
+  display: none;
+  border-radius: 100px;
+}
+
 .card {
   height: 85%;
   width: auto;
