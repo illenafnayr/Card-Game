@@ -336,4 +336,8 @@ body > h1 {
   .card {
     width: 20%;
   }
+  
+  button{
+    font-size: .5rem;
+  }
 }
