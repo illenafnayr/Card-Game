@@ -58,7 +58,7 @@ jQuery(() => {
   const drawCardUser = (num) => {
     $('#user').css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
-      const $card = $('<img class = "card">').attr('src', deck.cards[0].image).attr('id', deck.cards[0].code).attr('srcimg', deck.cards[0].image)
+      const $card = $('<img class = "card">').attr('src', deck.cards[0].image).attr('id', deck.cards[0].code).attr('srcimg', deck.cards[0].image).attr('value', deck.cards[0].value)
       $('#user').prepend($card)
       discardPile.cards.push(deck.cards.splice(0, 1)[0]);//since .splice returns array and only splilcing one object use [0] to select that object
       removeDeckImg()
@@ -67,7 +67,7 @@ jQuery(() => {
   const drawCardComputer = (num) => {
     $('#computer').css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
-      const $card = $('<img class = "card">').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue).attr('id', deck.cards[0].code).attr('srcimg', deck.cards[0].image)
+      const $card = $('<img class = "card">').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue).attr('id', deck.cards[0].code).attr('srcimg', deck.cards[0].image).attr('value', deck.cards[0].value)
       $('#computer').prepend($card)
       discardPile.cards.push(deck.cards.splice(0, 1)[0]);//since .splice returns array and only splilcing one object use [0] to select that object
       removeDeckImg()
@@ -76,7 +76,7 @@ jQuery(() => {
   const dealCards = (num, user, image, srcimg) => {
     $(user).css('visibility', 'visible')
     for (let i = 0; i < num; i++) {
-      const $card = $('<img class = "card">').attr('src', image).attr('srcimg', srcimg).attr('id', deck.cards[0].code)
+      const $card = $('<img class = "card">').attr('src', image).attr('srcimg', srcimg).attr('id', deck.cards[0].code).attr('value', deck.cards[0].value)
       $(user).prepend($card)
       discardPile.cards.push(deck.cards.splice(0, 1)[0]);//since .splice returns array and only splilcing one object use [0] to select that object in the array
       removeDeckImg()
@@ -172,15 +172,43 @@ jQuery(() => {
   }
   const playWar = () => {
     console.log('play war!');
-    const userCard = $('#user').children().eq(0)
-    const computerCard = $('#computer').children().eq(0)
-    $('#war').on('click', () => {
-      $('#userWar').append(userCard)
-      userCard.css('width', '85%').css('height', 'auto').css('z-index','0').css('position','static').attr('src', $('#userWar').children().eq(1)[0].attributes[3].nodeValue)
 
-      $('#computerWar').append(computerCard)
-      computerCard.css('width', '85%').css('height', 'auto').css('z-index','0').css('position','static').attr('src', $('#computerWar').children().eq(1)[0].attributes[3].nodeValue)
+    let userScore = 26
+    let computerScore = 26
+
+    const nextRound = () => {
+      $('#userWar').append($('#user').children().eq(0).css('position','static').css('width','100%').attr('src',$('#user').children().eq(0)[0].attributes[3].nodeValue))
+
+      $('#computerWar').append($('#computer').children().eq(0).css('position','static').css('width','100%').attr('src', $('#computer').children().eq(0)[0].attributes[3].nodeValue))
+
+    }
+
+    $('#war').on('click', () => {
+      if ($('#user').children().eq(1)[0].attributes[4].nodeValue > $('#computer').children().eq(1)[0].attributes[4].nodeValue) {
+        alert('User Wins')
+        $('#userWar').children().eq(1).css('width','8%').appendTo($('#user'))
+        $('#computerWar').children().eq(1).css('width','8%').appendTo($('#user'))
+        userScore ++
+        computerScore --
+      } else if ($('#user').children().eq(1)[0].attributes[4].nodeValue < $('#computer').children().eq(1)[0].attributes[4].nodeValue) {
+        alert('Computer Wins')
+        $('#userWar').children().eq(1).css('width','8%').appendTo($('#computer'))
+        $('#computerWar').children().eq(1).css('width','8%').appendTo($('#computer'))
+        userScore --
+        computerScore ++
+        $("#userScore")[0].innerHTML = "Score: " + userScore
+        $("#computerScore")[0].innerHTML = "Score: " + computerScore
+      } else if ($('#user').children().eq(1)[0].attributes[4].nodeValue == $('#computer').children().eq(1)[0].attributes[4].nodeValue) {
+        alert('its a tie. Draw again')
+        $('#userWar').children().eq(1).css('width','8%').appendTo($('#user'))
+        $('#computerWar').children().eq(1).css('width','8%').appendTo($('#computer'))
+      }
     })
+
+    $('#nextRound').on('click', () => {
+      nextRound()
+    })
+
   }
 
 
@@ -339,6 +367,8 @@ jQuery(() => {
       $('#openModal').css('display', 'none')
       $('#battlefield').css('display', 'flex')
       $('#war').css('display','inline-block')
+      $('#computer').off('click','.card')
+
       for (let i = 0; i < 26; i++) {
         $('#user').children().eq(i).css('z-index', i.toString()).css('position', 'absolute').attr('src', $('#carousel-images').children().eq(currentImgIndex)[0].attributes[0].nodeValue)
         $('#computer').children().eq(i).css('z-index', i.toString()).css('position', 'absolute')
@@ -351,4 +381,5 @@ jQuery(() => {
     })
   // On Load
   run()
+  console.log(deck);
 })
